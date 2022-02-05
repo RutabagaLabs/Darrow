@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <div class="container-fluid">
+    <img class="navbar-brand" src="{% static 'images/THD_logo_50x50.png' %}">
+    <span class="navbar-brand">Darrow</span>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'matters:dashboard' %}">Dashboard</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            New</a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'matters:dispute-create' %}">Dispute</a></li>
+            <li><a class="dropdown-item" href="{% url 'matters:advice-create' %}">Advice</a></li>
+            <li><a class="dropdown-item" href="{% url 'matters:deal-create' %}">Deal</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">My Matters</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li>
+      </ul>
+      {% if request.user.is_authenticated %}
+        <p class="text-white mb-2 mb-lg-0 mx-4">Welcome {{ request.user.first_name }}</p>
+      {% endif %}
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-light" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>  
+
+<div class="container mt-4">
+
+  <h1>My Matters</h1>
+
+  <p>Matter Count: {{ my_matters.count }} </p>  
+
+  <div class="col-md-6 card">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="true" href="#">Me</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'matters:team-matters' %}">My Team</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        {% for matter in my_matters %}
+            {% comment %} <li class="list-group-item">{{matter.name}}</li> {% endcomment %}
+          {% if matter.type == 'Dispute' %}
+            <li class="list-group-item">
+            <a class="text-decoration-none" href="{% url 'matters:dispute-detail' matter.pk %}">{{matter.name}}</a>
+            </li>
+          {% elif matter.type == 'Advice' %}
+            <li class="list-group-item">
+            <a class="text-decoration-none" href="{% url 'matters:advice-detail' matter.pk %}">{{matter.name}}</a>
+            </li>
+          {% elif matter.type == 'Deal' %}
+            <li class="list-group-item">
+            <a class="text-decoration-none" href="{% url 'matters:deal-detail' matter.pk %}">{{matter.name}}</a>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

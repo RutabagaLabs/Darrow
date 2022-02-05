@@ -1,0 +1,4 @@
+<option value="">---------</option>
+{% for court in courts %}
+<option value="{{ court.pk }}">{{ court.name }}</option>
+{% endfor %}

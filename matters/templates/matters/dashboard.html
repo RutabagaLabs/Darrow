@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <div class="container-fluid">
+    <img class="navbar-brand" src="{% static 'images/THD_logo_50x50.png' %}">
+    <span class="navbar-brand">Darrow</span>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            New</a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'matters:dispute-create' %}">Dispute</a></li>
+            <li><a class="dropdown-item" href="{% url 'matters:advice-create' %}">Advice</a></li>
+            <li><a class="dropdown-item" href="{% url 'matters:deal-create' %}">Deal</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'matters:my-matters' %}">My Matters</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li>
+      </ul>
+      {% if request.user.is_authenticated %}
+        <ul class="d-flex justify-content-end navbar-nav me-2 mb-2 mb-lg-0">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Welcome {{ request.user.first_name }}</a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+            <li><a class="dropdown-item disabled" href="#">Preferences</a></li>
+          </ul>
+        </li>
+        </ul>
+      {% endif %}
+    
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-light" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>  
+
+<div class="container mt-4">
+    
+  <div class="row mb-4">
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body bg-danger rounded-3">
+          <h1 class="card-title text-center text-light">{{ my_matters.count }}</h1>
+          <p class="card-text text-center text-light">Open Matters</p>
+        </div> 
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body bg-warning rounded-3">
+          <h1 class="card-title text-center">{{ my_matters.count }}</h1>
+          <p class="card-text text-center">Open Matters</p>
+        </div> 
+      </div>
+    </div>    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body bg-success rounded-3">
+          <h1 class="card-title text-center text-light">{{ my_matters.count }}</h1>
+          <p class="card-text text-center text-light">Open Matters</p>
+        </div> 
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <h5 class="card-header bg-dark text-light">My Matters</h5>
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            {% for matter in my_matters %}
+              <li class="list-group-item">
+              <a class="text-decoration-none" href="{% url 'matters:deal-detail' matter.pk %}">{{matter.name}}</a>
+              </li>
+            {% endfor %}
+          </ul>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="{% url 'matters:my-matters' %}" class="btn btn-primary">More...</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card">
+      <h5 class="card-header bg-dark text-light">Deadlines</h5>
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Test</li>
+            <li class="list-group-item">Test</li>
+            <li class="list-group-item">Test</li>
+            <li class="list-group-item">Test</li>
+            <li class="list-group-item">Test</li>
+            <li class="list-group-item">Test</li>
+            <li class="list-group-item">Test</li>
+            <li class="list-group-item">Test</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  
+</div>
+
+{% endblock content %}

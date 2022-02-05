@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <a href="{% url 'matters:matter-create' %}">Create a new matter</a>
+    <hr>
+    <h1>All Matters</h1>
+    <ul>
+        {% for matter in matters %}
+        <li><b><a href="{% url 'matters:matter-detail' matter.pk %}">{{ matter.name }}</a></b><br>{{ matter.desc }}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock content %}

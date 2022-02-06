@@ -59,7 +59,7 @@ class Court(models.Model):
     """ The court where a dispute is filed """
     name = models.CharField(max_length=100)
     state = models.ManyToManyField(State)
-    court_type = models.CharField(
+    type = models.CharField(
         choices = [
             ('ST', 'State'),
             ('FD', 'Federal'),

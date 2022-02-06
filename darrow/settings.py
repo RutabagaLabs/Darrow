@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,8 @@ AUTH_USER_MODEL = 'matters.User'
 LOGIN_REDIRECT_URL = '/matters'
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_URL = 'login'
+
+# Import-Export settings
+# https://django-import-export.readthedocs.io/en/stable/installation.html
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True

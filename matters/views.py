@@ -40,10 +40,10 @@ class TeamMatterListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         my_teams = Team.objects.filter(team_lead = self.request.user)
         team_members = User.objects.filter(team__in = my_teams)
-        q1 = Dispute.objects.filter(main_assignee__in = team_members).values_list("name", "main_assignee", "type")
-        q2 = Advice.objects.filter(main_assignee__in = team_members).values_list("name", "main_assignee", "type")
-        q3 = Deal.objects.filter(main_assignee__in = team_members).values_list("name", "main_assignee", "type")        
-        team_matters = q1.union(q2).union(q3).order_by('main_assignee') and Advice.objects.filter(main_assignee__in = team_members).order_by('main_assignee') and Deal.objects.filter(main_assignee__in = team_members).order_by('main_assignee')
+        q1 = Dispute.objects.filter(main_assignee__in = team_members).values("name", "main_assignee", "type", "pk")
+        q2 = Advice.objects.filter(main_assignee__in = team_members).values("name", "main_assignee", "type", "pk")
+        q3 = Deal.objects.filter(main_assignee__in = team_members).values("name", "main_assignee", "type", "pk")        
+        team_matters = q1.union(q2).union(q3).order_by('main_assignee')
         return team_matters
 
 
@@ -192,7 +192,10 @@ class DashboardView(LoginRequiredMixin, generic.ListView):
     context_object_name = "my_matters"
 
     def get_queryset(self):
-        my_matters = Dispute.objects.filter(main_assignee = self.request.user) and Advice.objects.filter(main_assignee = self.request.user) and Deal.objects.filter(main_assignee = self.request.user)
+        q1 = Dispute.objects.filter(main_assignee = self.request.user).values("name", "main_assignee", "type", "pk")
+        q2 = Advice.objects.filter(main_assignee = self.request.user).values("name", "main_assignee", "type", "pk")
+        q3 = Deal.objects.filter(main_assignee = self.request.user).values("name", "main_assignee", "type", "pk")
+        my_matters = q1.union(q2).union(q3)
         return my_matters
 
 

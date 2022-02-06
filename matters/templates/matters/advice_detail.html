@@ -25,7 +25,7 @@
           </ul>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">My Matters</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'matters:my-matters' %}">My Matters</a>
         </li>
         <li class="nav-item">
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
@@ -43,22 +43,21 @@
 </nav>  
 
 <div class="container mt-4">
-    <p>(((Advice detail page...)))</p>
-    <h3>{{ matter.name }}</h3>
+    <h3>{{ advice.name }}</h3>
     <p></p>
-    <p>{{ matter.desc }}</p>
+    <p>{{ advice.desc }}</p>
     <br>
 
     <dl class="row">
 
       <dt class="col-sm-2">Assigned to:</dt>
-      <dd class="col-sm-10">{{ matter.main_assignee }}</dd>
+      <dd class="col-sm-10">{{ advice.main_assignee }}</dd>
 
       <dt class="col-sm-2">Client:</dt>
-      <dd class="col-sm-10">{{ matter.client }}</dd>
+      <dd class="col-sm-10">{{ advice.client }}</dd>
 
       <dt class="col-sm-2">Opened on:</dt>
-      <dd class="col-sm-10">{{ matter.date_created }}</dd>
+      <dd class="col-sm-10">{{ advice.date_created }}</dd>
 
     </dl>
 

@@ -61,9 +61,19 @@
     <div class="card-body">
       <ul class="list-group list-group-flush">
         {% for matter in team_matters %}
-        <li class="list-group-item">
-          <a class="text-decoration-none" href="{% url 'matters:matter-detail' matter.pk %}">{{matter.name}}</a>
-        </li>
+          {% if matter.type == 'Dispute' %}
+            <li class="list-group-item">
+            <a class="text-decoration-none" href="{% url 'matters:dispute-detail' matter.pk %}">{{matter.name}}</a>
+            </li>
+          {% elif matter.type == 'Advice' %}
+            <li class="list-group-item">
+            <a class="text-decoration-none" href="{% url 'matters:advice-detail' matter.pk %}">{{matter.name}}</a>
+            </li>
+          {% elif matter.type == 'Deal' %}
+            <li class="list-group-item">
+            <a class="text-decoration-none" href="{% url 'matters:deal-detail' matter.pk %}">{{matter.name}}</a>
+            </li>
+          {% endif %}
         {% endfor %}
       </ul>
     </div>

@@ -48,37 +48,79 @@
 
   <p>Matter Count: {{ my_matters.count }} </p>  
 
-  <div class="col-md-6 card">
-    <div class="card-header">
-      <ul class="nav nav-tabs card-header-tabs">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="true" href="#">Me</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'matters:team-matters' %}">My Team</a>
-        </li>
-      </ul>
+  <div>
+    <ul>
+    {% for matter.type in my_matters %}
+      <li>{{ matter.type }} - {{ matter.count }}</li>
+    {% endfor %}
+    </ul>
+  <div
+
+  <div class="row mb-4">
+    <div class="col-md-6 card">
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="true" href="#">Me</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'matters:team-matters' %}">My Team</a>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          {% for matter in my_matters %}
+              {% comment %} <li class="list-group-item">{{matter.name}}</li> {% endcomment %}
+            {% if matter.type == 'Dispute' %}
+              <li class="list-group-item">
+              <a class="text-decoration-none" href="{% url 'matters:dispute-detail' matter.pk %}">{{matter.name}}</a>
+              </li>
+            {% elif matter.type == 'Advice' %}
+              <li class="list-group-item">
+              <a class="text-decoration-none" href="{% url 'matters:advice-detail' matter.pk %}">{{matter.name}}</a>
+              </li>
+            {% elif matter.type == 'Deal' %}
+              <li class="list-group-item">
+              <a class="text-decoration-none" href="{% url 'matters:deal-detail' matter.pk %}">{{matter.name}}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
     </div>
-    <div class="card-body">
-      <ul class="list-group list-group-flush">
-        {% for matter in my_matters %}
-            {% comment %} <li class="list-group-item">{{matter.name}}</li> {% endcomment %}
-          {% if matter.type == 'Dispute' %}
-            <li class="list-group-item">
-            <a class="text-decoration-none" href="{% url 'matters:dispute-detail' matter.pk %}">{{matter.name}}</a>
-            </li>
-          {% elif matter.type == 'Advice' %}
-            <li class="list-group-item">
-            <a class="text-decoration-none" href="{% url 'matters:advice-detail' matter.pk %}">{{matter.name}}</a>
-            </li>
-          {% elif matter.type == 'Deal' %}
-            <li class="list-group-item">
-            <a class="text-decoration-none" href="{% url 'matters:deal-detail' matter.pk %}">{{matter.name}}</a>
-            </li>
-          {% endif %}
-        {% endfor %}
-      </ul>
+
+    <div id="container2" style="width: 25%;">
+        <canvas id="myChart2"></canvas>
     </div>
+
+    <script>
+      const data = {
+        labels: [{% for matter in my_matters %}'{{matter.type}}',{% endfor %}],
+        datasets: [{
+          label: 'My First Dataset',
+          data: [{% for matter.type in my_matters %}{{matter.count}}{% endfor %}],
+          backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)'
+          ],
+          hoverOffset: 4
+        }]
+      };
+
+      const config = {
+        type: 'doughnut',
+        data: data,
+      };
+    </script>
+
+    <script>
+      const myChart = new Chart(
+        document.getElementById('myChart2'),
+        config
+      );
+    </script>
   </div>
 </div>
 

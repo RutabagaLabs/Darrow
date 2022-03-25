@@ -5,7 +5,7 @@ from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
 
-from .models import User, Associate, Team, State, Court, Dispute, Client, Advice, Deal
+from .models import User, Associate, Team, State, Court, Dispute, Client, Advice, Deal, Contact, Event
 
 
 class StateResource(resources.ModelResource):
@@ -28,6 +28,15 @@ class CourtAdmin(ImportExportModelAdmin):
     resource_class = CourtResource
 
 
+class ContactResource(resources.ModelResource):
+
+    class Meta:
+        model = Contact
+        skip_unchanged = True
+
+class ContactAdmin(ImportExportModelAdmin):
+    resource_class = ContactResource
+
 admin.site.register(User)
 admin.site.register(Associate)
 admin.site.register(Team)
@@ -39,3 +48,5 @@ admin.site.register(Advice)
 admin.site.register(Deal)
 admin.site.register(State, StateAdmin)
 admin.site.register(Court, CourtAdmin)
+admin.site.register(Contact, ContactAdmin)
+admin.site.register(Event)

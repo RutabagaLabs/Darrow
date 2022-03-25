@@ -71,6 +71,41 @@ class Court(models.Model):
         return self.name
 
 
+class Contact(models.Model):
+    """ A person or entity involved in a matter """
+    type = models.CharField(
+        choices = [
+            ('P', 'Person'), 
+            ('E', 'Entity'),
+        ],
+    max_length=6)    
+    first = models.CharField(max_length=50, null=True)
+    last = models.CharField(max_length=50, null=True)
+    company = models.CharField(max_length=50, null=True)
+    street = models.CharField(max_length=50, null=True)
+    city = models.CharField(max_length=50, null=True)
+    state = models.ManyToManyField(State)
+    zip = models.PositiveSmallIntegerField
+    tel = models.PositiveIntegerField
+    fax = models.PositiveIntegerField
+    email = models.EmailField
+    web = models.URLField
+
+    def __str__(self):
+        """ Returns the contact's name """
+        if self.type=='P':
+            name = f"{self.first} {self.last}"
+        else:
+            name = self.company
+        return name
+
+
+class Event(models.Model):
+    """ A deadline or occurence """
+    desc = models.CharField(max_length=50, null=True)
+    date = models.DateField
+
+
 class Matter(models.Model):
     """ A basic matter to track """
     name = models.CharField(max_length=100, null=True)

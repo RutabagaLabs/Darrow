@@ -25,10 +25,10 @@ class MyMatterListView(LoginRequiredMixin, generic.ListView):
     context_object_name = "my_matters"
 
     def get_queryset(self):
-        q1 = Dispute.objects.filter(main_assignee = self.request.user).values("name", "main_assignee", "type", "pk")
-        q2 = Advice.objects.filter(main_assignee = self.request.user).values("name", "main_assignee", "type", "pk")
-        q3 = Deal.objects.filter(main_assignee = self.request.user).values("name", "main_assignee", "type", "pk")
-        my_matters = q1.union(q2).union(q3)
+        my_disputes = Dispute.objects.filter(main_assignee = self.request.user).values("name", "main_assignee", "type", "pk")
+        my_advice = Advice.objects.filter(main_assignee = self.request.user).values("name", "main_assignee", "type", "pk")
+        my_deals = Deal.objects.filter(main_assignee = self.request.user).values("name", "main_assignee", "type", "pk")
+        my_matters = my_disputes.union(my_advice).union(my_deals)
         return my_matters
 
 
